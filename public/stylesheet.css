@@ -1,0 +1,13 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    background-color: red;
+}
+.big-momma-component{
+    background-color: green;
+    padding: 10px;
+}
+.registration{
+    background-color: yellow;
+}
