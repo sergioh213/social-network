@@ -17,14 +17,14 @@ app.use(
 );
 app.use(cookieParser());
 
-// app.use(csurf())
-// app.use(function(req, res, next) {
-//    res.locals.csrfToken = req.csrfToken();
-//    next();
-// });
-
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+app.use(csurf());
+app.use(function(req, res, next){
+    res.cookie('mytoken', req.csrfToken());
+    next();
+});
 
 app.use(express.static("./public"))
 
@@ -57,12 +57,12 @@ app.post("/registration", (req, res) => {
         bcrypt.hashPassword(password)
         .then(hashedPassword => {
             db.newUser(first_name, last_name, email, hashedPassword)
-            .then(results => {
+            .then(userInfo => {
                 console.log("NEW USER SAVED!");
-                req.session.user = {id: results.id, first_name: first_name, last_name: last_name, email: email, hashedPassword: hashedPassword}
+                req.session.user = {id: userInfo.id, first_name: first_name, last_name: last_name, email: email, hashedPassword: hashedPassword}
                 res.json({
                     success: true,
-                    id: results.id,
+                    id: userInfo.id,
                     first_name: first_name,
                     last_name: last_name,
                     email: email,
@@ -83,15 +83,43 @@ app.post("/registration", (req, res) => {
     }
 })
 
-// app.use((req, res, next) => {
-//     console.log("middleware in use");
-//     if(!req.session.user){
-//         console.log("no user ID found, redirecting to signUp/logIn...");
-//         res.redirect("/registration")
-//     } else {
-//         next()
-//     }
-// })
+app.post("/login", (req, res) => {
+    db.getEmails(req.body.email).then(userInfo => {
+        if (userInfo && userInfo.email) {
+            bcrypt.checkPassword(req.body.password, userInfo.hashed_password)
+                .then(passwordsMatch => {
+                    if(passwordsMatch) {
+                        req.session.user = {id: userInfo.id, firstName: userInfo.first_name, lastName: userInfo.last_name, email: userInfo.email, hashedPassword: userInfo.hashed_password}
+                        res.json({
+                            success: true,
+                            id: userInfo.id,
+                            first_name: userInfo.first_name,
+                            last_name: userInfo.last_name,
+                            email: userInfo.email,
+                            hashedPassword: userInfo.hashed_password
+                        })
+                    } else {
+                        res.json({
+                            success: false,
+                            error: 'Wrong password'
+                        })
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.json({
+                        success: false,
+                        error: 'Wrong password'
+                    })
+                })
+        } else {
+            res.json({
+                success: false,
+                error: 'Email not found'
+            })
+        }
+    })
+})
 
 app.get("/welcome", (req, res) => {
     if(req.session.user){

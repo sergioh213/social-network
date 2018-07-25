@@ -19,3 +19,19 @@ exports.newUser = function(first_name, last_name, email, hashed_password) {
         return results.rows
     })
 }
+
+exports.getPasswordDB = function(email) {
+    const params = [email]
+    return db.query('SELECT hashed_password FROM users WHERE email = $1;', params)
+        .then(results => {
+            return results.rows[0]
+        })
+}
+
+exports.getEmails = function(email) {
+    const params = [email]
+    return db.query('SELECT * FROM users WHERE email = $1;', params)
+        .then(results => {
+            return results.rows[0]
+        })
+}

@@ -1,13 +1,87 @@
 *{
     box-sizing: border-box;
+    font-family: helvetica;
+    font-weight: 100;
+}
+html{
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+button {
+    margin-top: 30px;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
 body{
-    background-color: red;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom right, green, #EDCBB1);
+    /* background-color: #EDCBB1; */
+}
+input{
+    filter: opacity(0.5);
+    height: 50px;
+    width: 200px;
+    color: black;
+    font-size: 22px;
+}
+#reg-header{
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100px;
+    position: absolute;
+    color: #5D3440;
+    font-weight: bold;
+}
+#big-logo{
+    margin-top: 120px;
+    margin-left: 50px;
+}
+#navheader {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    background-color: #5D3440;
+    text-align: center;
+}
+.nav-item {
+    display: inline-block;
+    font-size: 24px;
+}
+.nav-item a {
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: white;
+}
+.nav-item:hover {
+    background-color: white;
+}
+.nav-item a:hover {
+    text-decoration: none;
+    color: #5D3440;
+}
+.contex-box{
+    width: 100%;
+    text-align: center;
+}
+nav{
+    background-color: green;
 }
 .big-momma-component{
-    background-color: green;
-    padding: 10px;
+    /* padding: 10px; */
 }
 .registration{
-    background-color: yellow;
+    /* background-color: yellow; */
+}
+#error{
+    color: red;
+    margin-bottom: 30px;
+    font-size: 20px;
 }
