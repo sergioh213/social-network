@@ -8,6 +8,28 @@ const cookieSession = require("cookie-session");
 const bc = require("./db/bcrypt.js")
 const bcrypt = require('./db/bcrypt')
 const csurf = require('csurf')
+const multer = require('multer');
+const uidSafe = require('uid-safe');
+const path = require('path');
+const s3 = require("./s3");
+const config = require("./config");
+
+var diskStorage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, __dirname + '/uploads');
+    },
+    filename: function (req, file, callback) {
+      uidSafe(24).then(function(uid) {
+          callback(null, uid + path.extname(file.originalname));
+      });
+    }
+});
+var uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152
+    }
+});
 
 app.use(
    cookieSession({
@@ -60,6 +82,7 @@ app.post("/registration", (req, res) => {
             .then(userInfo => {
                 console.log("NEW USER SAVED!");
                 req.session.user = {id: userInfo.id, first_name: first_name, last_name: last_name, email: email, hashedPassword: hashedPassword}
+                console.log("logging req.session.user.id when it is created: ", req.session.user.id);
                 res.json({
                     success: true,
                     id: userInfo.id,
@@ -81,6 +104,28 @@ app.post("/registration", (req, res) => {
             })
         })
     }
+})
+
+app.post("/upload", uploader.single('file'), s3.upload, (req, res) => {
+    console.log("we are here, and the file is: ", req.file.filename);
+    db.changeUserPic(req.session.user.id, config.s3Url + req.file.filename).then(imgUrl => {
+        res.json({
+            success: true,
+            url: imgUrl
+        })
+    })
+})
+
+app.get("/user", (req, res) => {
+    db.getUserById(req.session.user.id).then(data => {
+        res.json({
+            ...data,
+            image: data.image_url || '/content/default_profile_picture.png'
+        })
+    }).catch((err) => {
+        console.log("logging error", err);
+        res.sendStatus(500)
+    })
 })
 
 app.post("/login", (req, res) => {

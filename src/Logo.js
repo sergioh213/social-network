@@ -2,12 +2,14 @@ import React, {Component} from 'react'
 
 function Logo() {
     return (
-        <div className="big-momma-component">
-            <h1>Home!</h1>
+        <div id="logo">
+            <h1 className="header">Home</h1>
 
-            <img src="/content/leafs-icon.ico" alt=""/>
+            <img id="small-logo" src="/content/leafs-icon.ico" alt="" />
 
-            <h3><a href="/logout">Log out</a></h3>
+            <div className="contex-box">
+                <h3 id="log-out"><a href="/logout">Log out</a></h3>
+            </div>
         </div>
     )
 }

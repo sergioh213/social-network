@@ -44,7 +44,7 @@ class Login extends Component {
         return (
             <div className="registration">
                 {/*<div className="contex-box">*/}
-                    <h1 id="reg-header">Log In</h1>
+                    <h1 className="header">Log In</h1>
                 {/*</div>*/}
 
                 <div className="contex-box">
@@ -71,7 +71,7 @@ class Login extends Component {
                 </form>
 
                 <div className="contex-box">
-                    <h3>Not a member yet? <Link to="/registration">Sign up</Link></h3>
+                    <h3>Not a member yet? <a href="/welcome">Sign up</a></h3>
                 </div>
             </div>
         )

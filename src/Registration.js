@@ -45,7 +45,7 @@ class Registration extends Component {
         return (
             <div className="registration">
                 {/*<div className="contex-box">*/}
-                    <h1 id="reg-header">Registration</h1>
+                    <h1 className="header">Registration</h1>
                 {/*</div>*/}
 
                 <div className="contex-box">

@@ -1,6 +1,7 @@
 import React from 'react'
 import Registration from './Registration'
 import Login from './Login'
+import Nav from './Nav'
 // import Logo from './Logo'
 import { HashRouter, Route, Link } from 'react-router-dom'
 
@@ -9,23 +10,7 @@ import { HashRouter, Route, Link } from 'react-router-dom'
 function Welcome() {
     return (
         <div className="big-momma-component">
-            <div id="navheader">
-                <div className="nav-item">
-                  <a href="/signers">SIGNER'S LIST</a>
-                </div>
-                <div className="nav-item">
-                  <a href="/profile">PROFILE</a>
-                </div>
-                <div className="nav-item">
-                  <a href="/readMore">PETITION</a>
-                </div>
-                <div className="nav-item">
-                  <a href="/thanks">SIGNATURE</a>
-                </div>
-                <div className="nav-item">
-                  <a href="/logout">LOGOUT</a>
-                </div>
-            </div>
+            <Nav />
             <HashRouter>
                 <div>
                     <Route exact path="/" component={Registration}></Route>
