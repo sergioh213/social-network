@@ -9,7 +9,7 @@ html {
     height: 100vh;
 }
 button {
-    margin-top: 30px;
+    margin-top: 10px;
     background-color: #4CAF50; /* Green */
     border: none;
     color: white;
@@ -45,16 +45,13 @@ input {
     margin-left: 50px;
 }
 #small-logo {
-    margin-left: 30px;
-    margin-top: 30px;
+    left: 30px;
+    top: 70px;
     position: absolute;
     width: 100px;
     height: auto;
     transform: rotate(-20deg);
 }
-/* nav{
-    background-color: green;
-} */
 #navheader {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -79,6 +76,7 @@ input {
     color: #5D3440;
 }
 .contex-box {
+    /* position: absolute; */
     width: 100%;
     text-align: center;
 }
@@ -94,40 +92,71 @@ input {
     font-size: 20px;
 }
 #log-out {
-    margin-top: 600px;
+    /* left: 50%;
+    transform: translateX(-50%);
+    position: absolute; */
+    top: 600px;
 }
 #file-field {
     margin: 10px;
     transform: translateX(-3000px);
 }
 #file-label {
-    position: relative;
-    border: cyan solid 3px;
-    border-radius: 20px;
-    cursor: pointer;
-    padding-left: 30px;
-    padding-right: 30px;
-    left: 50%;
-    margin-right: 50px;
-    display: inline-block;
-    transform: translateX(-50%);
-    background-color: white;
+    margin-top: 10px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    /* display: inline-block; */
+    font-size: 16px;
 }
 #uploader {
+    border: #5D3440 10px solid;
+    text-align: center;
     background-color: #EDCBB1;
     position: absolute;
     width: 600px;
-    height: auto;
+    height: 200px;
     left: 50%;
     transform: translateX(-50%);
     top: 300px;
 }
 #profile-pic-div {
+    position: relative;
+    display: block;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
     margin-top: 200px;
     background-color: #EDCBB1;
+    padding: 0px;
+    height: 200px;
 }
 #profile-pic {
     width: 200px;
     height: 200px;
+    display: inline;
+}
+#profile-name{
+    position: fixed;
+    display: inline;
+    margin-left: 40px;
+    margin-top: 20px;
+}
+#profile-header{
+    left: 50%;
+    transform: translateX(-50%);
+}
+#upload-button{
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 20px;
 
+}
+textarea{
+    resize: none;
+    width: 300px;
+    height: 200px;
 }

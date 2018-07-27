@@ -5,12 +5,15 @@ class Uploader extends Component {
     constructor(props) {
         super(props)
 
+        this.state = {}
+
         this.imageSelected = this.imageSelected.bind(this)
         this.upload = this.upload.bind(this)
     }
     imageSelected(e) {
         this.setState({
-            imageFile : e.target.files[0]
+            imageFile : e.target.files[0],
+            imageName : e.target.files[0].name
         })
     }
     upload() {
@@ -33,14 +36,14 @@ class Uploader extends Component {
         }
     }
     render() {
+        console.log("here is where to check: ", this.state);
         return (
             <div id="uploader">
-                <h3>Change your profile image</h3>
+                <h3 id="profile-header">Change your profile image</h3>
                 <label id="file-label" htmlFor="file-field">Select image</label>
                 <input id="file-field" type="file" onChange={ this.imageSelected } name="" value=""></input>
-                <div className="content-box">
-                    <button id="upload-button" onClick={ this.upload } name="button">Upload</button>
-                </div>
+                { this.state.imageName && <div id="imageName">{ this.state.imageName }</div> }
+                <button id="upload-button" onClick={ this.upload } name="button">Upload</button>
             </div>
         )
     }

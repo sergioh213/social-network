@@ -128,6 +128,14 @@ app.get("/user", (req, res) => {
     })
 })
 
+app.post("/bio", (req, res) => {
+    console.log("req.body.bio: ", req.body.bio);
+    db.saveBio(req.session.user.id, req.body.bio).then(bio => {
+        console.log("bio on the server: ", bio);
+        res.json({bio})
+    })
+})
+
 app.post("/login", (req, res) => {
     db.getEmails(req.body.email).then(userInfo => {
         if (userInfo && userInfo.email) {

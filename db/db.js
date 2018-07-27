@@ -20,6 +20,21 @@ exports.newUser = function(first_name, last_name, email, hashed_password) {
     })
 }
 
+exports.saveBio = function(id, bio) {
+    console.log("bd, id: ", id, "bio: ", bio);
+    const params = [id, bio];
+    const q = `
+        UPDATE users SET
+        bio = $2
+        WHERE id = $1
+        RETURNING *;
+        `;
+    return db.query(q, params).then(userInfo => {
+        console.log("bio on the db: ", userInfo.rows[0].bio);
+        return userInfo.rows[0].bio
+    })
+}
+
 exports.getPasswordDB = function(email) {
     const params = [email]
     return db.query('SELECT hashed_password FROM users WHERE email = $1;', params)
