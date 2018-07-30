@@ -5,6 +5,7 @@ import ProfilePic from './ProfilePic'
 import Profile from './Profile'
 import Uploader from './Uploader'
 import Nav from './Nav'
+import Opp from './Opp'
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 
 class App extends Component {
@@ -58,6 +59,7 @@ class App extends Component {
         if (!this.state.id) {
             return (<img src="/content/progressBar.gif" />)
         }
+        console.log("my Opp component in App: ", Opp);
         return (
             <div id="app">
                 <Nav />
@@ -69,7 +71,7 @@ class App extends Component {
                 />
                 <BrowserRouter>
                     <div>
-                        <Route path='/profile' render={ () => (
+                        <Route exact path='/profile' render={ () => (
                             <Profile
                                 image={ image }
                                 first_name={ firstName }
@@ -81,6 +83,7 @@ class App extends Component {
                                 setBio={ this.setBio }
                             />
                         ) } />
+                        <Route exact path='/user/:id' component={Opp} />
                     </div>
                 </BrowserRouter>
                 <Logo />

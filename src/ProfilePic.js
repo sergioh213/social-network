@@ -1,7 +1,7 @@
 import React from 'react'
 
 function ProfilePic (props) {
-    console.log("profile pic:", props);
+    console.log("LOGGED IN USER'S profile pic:", props);
     return (
         <div id="profile-pic-div">
             <img id="profile-pic"

@@ -128,6 +128,22 @@ app.get("/user", (req, res) => {
     })
 })
 
+app.get("/user/:id.json", (req, res) => {
+    console.log("server");
+    if (req.session.user.id == req.params.id) {
+        res.json({
+            redirect: true
+        })
+    } else {
+        db.getUserById(req.params.id).then(data => {
+            res.json({
+                ...data,
+                image: data.image_url || '/content/default_profile_picture.png'
+            })
+        })
+    }
+})
+
 app.post("/bio", (req, res) => {
     console.log("req.body.bio: ", req.body.bio);
     db.saveBio(req.session.user.id, req.body.bio).then(bio => {
@@ -188,7 +204,7 @@ app.get('/logout', (req, res) => {
 })
 
 app.get('*', function(req, res) {
-    if(!req.session.user){
+    if(!req.session.user) {
         res.redirect("/welcome")
     } else {
         res.sendFile(__dirname + '/index.html');
