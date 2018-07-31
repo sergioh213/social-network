@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS friendships;
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
@@ -10,3 +11,27 @@ CREATE TABLE users (
     bio VARCHAR(400),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE friendships (
+    id SERIAL PRIMARY KEY,
+    sender_id INT REFERENCES users(id),
+    receiver_id INT REFERENCES users(id),
+    status INT DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP
+);
+
+-- SELECT * FROM friendships
+-- WHERE ((sender_id = $1 AND receiver_id = $2)
+-- OR (sender_id = $2 AND receiver_id = $1))
+-- AND (status = 1 OR status = 2)
+--
+-- UPDATE friendships
+-- SET updated_at = CURRENT_TIMESTAMP;
+--
+-- 1: pending, 2:accepted, 3: rejected,
+
+-- SELECT * FROM friendships
+-- WHERE ((sender_id = 2 AND receiver_id = 1)
+-- OR (sender_id = 2 AND receiver_id = 1))
+-- AND (status = 1 OR status = 2);

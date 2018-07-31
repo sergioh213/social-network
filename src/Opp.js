@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import axios from './axios'
+import FriendButton from './FriendButton'
 
 class Opp extends Component {
     constructor(props) {
         super(props)
 
         this.state = {}
-
     }
     componentDidMount() {
         console.log("is this happening??");
@@ -23,11 +23,16 @@ class Opp extends Component {
     }
     render() {
         const { first_name, last_name, id, image, bio } = this.state
+        if (!id) {
+            return null;
+        }
         return (
             <div id="opp">
+                <img id="profile-pic" src={image} alt=""/>
                 <h1>SOMEONE ELSES PROFILE</h1>
-                <h3>{ `${ first_name } ${ last_name }`}</h3>
-                <p>{bio}</p>
+                <h3>{ `${ first_name } ${ last_name }` }</h3>
+                <p>{ bio }</p>
+                <FriendButton id={ id } />
             </div>
         )
     }

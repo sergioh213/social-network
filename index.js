@@ -129,7 +129,6 @@ app.get("/user", (req, res) => {
 })
 
 app.get("/user/:id.json", (req, res) => {
-    console.log("server");
     if (req.session.user.id == req.params.id) {
         res.json({
             redirect: true
@@ -142,6 +141,75 @@ app.get("/user/:id.json", (req, res) => {
             })
         })
     }
+})
+
+app.get("/friend/:id.json", (req, res) => {
+    db.getCurrentStatus(req.session.user.id, req.params.id).then(data => {
+        console.log("req.session.user.id: ", req.session.user.id, " req.params.id: ", req.params.id);
+        console.log("current status (during get server): ", data);
+        res.json(data && {
+            sessionUserId: req.session.user.id,
+            status: data.status,
+            senderId: data.sender_id,
+            receiverId: data.receiver_id
+        })
+    }).catch(err => {
+        console.log(err);
+        res.json({
+            sessionUserId: req.session.user.id,
+            status: false
+        })
+    })
+})
+
+app.post("/friend/:id.json", (req, res) => {
+    db.setStatus(req.session.user.id, req.params.id).then(curStatus => {
+        console.log("current status (evfd): ", curStatus);
+        res.json({
+            sessionUserId: req.session.user.id,
+            status: 2
+        })
+    }).catch(err => {
+        console.log(err);
+        res.json({
+            sessionUserId: req.session.user.id,
+            status: false
+        })
+    })
+})
+
+app.post("/terminate/:id.json", (req, res) => {
+    console.log("beggining of delete post in server");
+    db.deleteFriend(req.session.user.id, req.params.id).then(curStatus => {
+        console.log("Status deleted (friendship terminated): ", curStatus);
+        res.json({
+            sessionUserId: req.session.user.id,
+            status: false
+        })
+    }).catch(err => {
+        console.log(err);
+        res.json({
+            sessionUserId: req.session.user.id,
+            status: false
+        })
+    })
+})
+
+app.post("/accept/:id.json", (req, res) => {
+    console.log("beggining of accept post in server");
+    db.acceptFriend(req.session.user.id, req.params.id).then(curStatus => {
+        console.log("Status accepted (friendship accepted): ", curStatus);
+        res.json({
+            sessionUserId: req.session.user.id,
+            status: 2
+        })
+    }).catch(err => {
+        console.log(err);
+        res.json({
+            sessionUserId: req.session.user.id,
+            status: 2
+        })
+    })
 })
 
 app.post("/bio", (req, res) => {
