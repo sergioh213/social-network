@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import axios from './axios'
 import FriendButton from './FriendButton'
+import Logo from './Logo'
 
 class Opp extends Component {
     constructor(props) {
@@ -27,12 +28,13 @@ class Opp extends Component {
             return null;
         }
         return (
-            <div id="opp">
-                <img id="profile-pic" src={image} alt=""/>
-                <h1>SOMEONE ELSES PROFILE</h1>
-                <h3>{ `${ first_name } ${ last_name }` }</h3>
+            <div id="profile">
+                <img id="profile-pic" src={ image } alt=""/>
+                {/*<h1>SOMEONE ELSES PROFILE</h1>*/}
+                <h3>{ `${ first_name } ${ last_name }` } PROFILE</h3>
                 <p>{ bio }</p>
                 <FriendButton id={ id } />
+                <Logo currentPage={`SOMEONE ELSE'S PROFILE`} />
             </div>
         )
     }

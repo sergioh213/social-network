@@ -19,7 +19,6 @@ class Uploader extends Component {
     upload() {
         var self = this
         var formData = new FormData;
-        console.log("imageFile: ", this.state.imageFile);
         if (this.state.imageFile == '') {
             this.setState({
                 error: 'Please select a file in order to upload'
@@ -28,7 +27,6 @@ class Uploader extends Component {
             formData.append('file', this.state.imageFile);
             axios.post('/upload', formData)
                 .then((res) => {
-                    console.log("axios post /upload : ", res.data.url);
                     if (res.data.success) {
                         this.props.setImage(res.data.url)
                     }
@@ -36,9 +34,9 @@ class Uploader extends Component {
         }
     }
     render() {
-        console.log("here is where to check: ", this.state);
         return (
             <div id="uploader">
+                <p id="close-x" onClick={ this.props.hideUploader }>x</p>
                 <h3 id="profile-header">Change your profile image</h3>
                 <label id="file-label" htmlFor="file-field">Select image</label>
                 <input id="file-field" type="file" onChange={ this.imageSelected } name="" value=""></input>

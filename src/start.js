@@ -3,15 +3,24 @@ import ReactDOM from 'react-dom';
 import Welcome from './Welcome'
 import axios from './axios'
 import App from './App'
+import { Provider } from 'react-redux';
+import reducer from './reducers';
+import { createStore, applyMiddleware } from 'redux';
+import reduxPromise from 'redux-promise';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-let component
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(reduxPromise)));
 
-// axios.get("/"){}
+let component;
 
 if (location.pathname == "/welcome") {
     component = <Welcome />
 } else {
-    component = <App />
+    component = (
+        <Provider store={ store }>
+            <App />
+        </Provider>
+    );
 }
 
 ReactDOM.render(

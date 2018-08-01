@@ -1,11 +1,10 @@
 import React, {Component} from 'react'
 import Logo from './Logo'
 import axios from './axios'
-import ProfilePic from './ProfilePic'
 import Profile from './Profile'
-import Uploader from './Uploader'
 import Nav from './Nav'
 import Opp from './Opp'
+import Uploader from './Uploader'
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 
 class App extends Component {
@@ -16,18 +15,30 @@ class App extends Component {
             showBio: false
         }
 
-        this.showUploader = this.showUploader.bind(this)
-        this.setImage = this.setImage.bind(this)
-        this.toggleShowBio = this.toggleShowBio.bind(this)
         this.setBio = this.setBio.bind(this)
+        this.toggleShowBio = this.toggleShowBio.bind(this)
+        this.setImage = this.setImage.bind(this)
+        this.showUploader = this.showUploader.bind(this)
+        this.hideUploader = this.hideUploader.bind(this)
+    }
+    setBio(value) {
+        axios.post("/bio", {bio : value}).then(
+            ({data}) => {
+                this.setState({bio: data.bio})
+            }
+        )
     }
     showUploader() {
         this.setState({
             uploaderIsVisible: true
         })
     }
+    hideUploader() {
+        this.setState({
+            uploaderIsVisible: false
+        })
+    }
     setImage(url) {
-        console.log("url in setImage: ", url);
         this.setState({
             uploaderIsVisible: false,
             image: url
@@ -38,56 +49,42 @@ class App extends Component {
             showBio: !this.state.showBio
         })
     }
-    setBio(value) {
-        axios.post("/bio", {bio : value}).then(
-            ({data}) => {
-                console.log("bio DATA: ", data.bio);
-                this.setState({bio: data.bio})
-            }
-        )
-    }
     componentDidMount() {
         axios.get("/user").then(
             ({data}) => {
-                console.log("LOGGING DATA: ", data);
                 this.setState(data)
             }
         )
     }
     render() {
-        const { firstName, lastName, id, image, bio, showBio } = this.state
+        const { first_name, last_name, id, image, bio, showBio } = this.state
+        console.log("this.hideUploader: ", this.hideUploader);
         if (!this.state.id) {
-            return (<img src="/content/progressBar.gif" />)
+            return (<img id="loading-img" src="/content/progressBar.gif" />)
         }
-        console.log("my Opp component in App: ", Opp);
         return (
             <div id="app">
                 <Nav />
-                <ProfilePic
-                    image={ this.state.image }
-                    first_name={ this.state.first_name }
-                    last_name={ this.state.last_name }
-                    clickHandler={ this.showUploader }
-                />
                 <BrowserRouter>
                     <div>
                         <Route exact path='/profile' render={ () => (
                             <Profile
                                 image={ image }
-                                first_name={ firstName }
-                                last_name={ lastName }
+                                first_name={ first_name }
+                                last_name={ last_name }
                                 id={ id }
                                 bio={ bio }
                                 showBio={ showBio }
                                 toggleShowBio={ this.toggleShowBio }
                                 setBio={ this.setBio }
+                                showUploader={ this.showUploader }
+                                hideUploader={ this.hideUploader }
                             />
                         ) } />
+                        { this.state.uploaderIsVisible && <Uploader setImage={ this.setImage } hideUploader={ this.hideUploader }/> }
                         <Route exact path='/user/:id' component={Opp} />
                     </div>
                 </BrowserRouter>
-                <Logo />
-                { this.state.uploaderIsVisible && <Uploader setImage={this.setImage} /> }
             </div>
         )
     }

@@ -146,7 +146,6 @@ app.get("/user/:id.json", (req, res) => {
 app.get("/friend/:id.json", (req, res) => {
     db.getCurrentStatus(req.session.user.id, req.params.id).then(data => {
         console.log("req.session.user.id: ", req.session.user.id, " req.params.id: ", req.params.id);
-        console.log("current status (during get server): ", data);
         res.json(data && {
             sessionUserId: req.session.user.id,
             status: data.status,
@@ -155,60 +154,48 @@ app.get("/friend/:id.json", (req, res) => {
         })
     }).catch(err => {
         console.log(err);
-        res.json({
-            sessionUserId: req.session.user.id,
-            status: false
-        })
     })
 })
 
 app.post("/friend/:id.json", (req, res) => {
-    db.setStatus(req.session.user.id, req.params.id).then(curStatus => {
-        console.log("current status (evfd): ", curStatus);
+    console.log("req.params.id IN FRIEND REQUEST: ", req.params.id);
+    db.setStatus(req.session.user.id, req.params.id).then(data => {
+        console.log("current status (evfd): ", data);
         res.json({
             sessionUserId: req.session.user.id,
-            status: 2
+            status: 1,
+            senderId: data.sender_id,
+            receiverId: data.receiver_id
         })
     }).catch(err => {
         console.log(err);
-        res.json({
-            sessionUserId: req.session.user.id,
-            status: false
-        })
     })
 })
 
 app.post("/terminate/:id.json", (req, res) => {
     console.log("beggining of delete post in server");
-    db.deleteFriend(req.session.user.id, req.params.id).then(curStatus => {
-        console.log("Status deleted (friendship terminated): ", curStatus);
+    db.deleteFriend(req.session.user.id, req.params.id).then(data => {
         res.json({
             sessionUserId: req.session.user.id,
-            status: false
+            status: null,
         })
     }).catch(err => {
         console.log(err);
-        res.json({
-            sessionUserId: req.session.user.id,
-            status: false
-        })
     })
 })
 
 app.post("/accept/:id.json", (req, res) => {
     console.log("beggining of accept post in server");
-    db.acceptFriend(req.session.user.id, req.params.id).then(curStatus => {
-        console.log("Status accepted (friendship accepted): ", curStatus);
+    db.acceptFriend(req.session.user.id, req.params.id).then(data => {
+        console.log("Status accepted (friendship accepted): ", data);
         res.json({
             sessionUserId: req.session.user.id,
-            status: 2
+            status: 2,
+            senderId: data.sender_id,
+            receiverId: data.receiver_id
         })
     }).catch(err => {
         console.log(err);
-        res.json({
-            sessionUserId: req.session.user.id,
-            status: 2
-        })
     })
 })
 

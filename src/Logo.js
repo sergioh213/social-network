@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 
-function Logo() {
+function Logo(props) {
     return (
         <div id="logo">
-            <h1 className="header">Home</h1>
+            <h1 className="header">{props.currentPage}</h1>
 
             <img id="small-logo" src="/content/leafs-icon.ico" alt="" />
 

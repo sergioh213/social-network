@@ -124,7 +124,7 @@ input {
     transform: translateX(-50%);
     top: 300px;
 }
-#profile-pic-div {
+#profile {
     position: relative;
     display: block;
     left: 50%;
@@ -139,6 +139,8 @@ input {
     width: 200px;
     height: 200px;
     display: inline;
+    object-fit: cover;
+    object-position: center;
 }
 #profile-name{
     position: fixed;
@@ -162,4 +164,15 @@ textarea{
 }
 #opp{
     background-color: red;
+}
+#close-x{
+    float: right;
+    margin-right: 20px;
+    cursor: pointer;
+    background-color: #5D3440;
+    padding-left: 4px;
+    padding-right: 4px;
+    font-weight: bold;
+    color: white;
+    border-radius: 50%;
 }
