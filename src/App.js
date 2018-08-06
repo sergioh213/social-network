@@ -57,10 +57,18 @@ class App extends Component {
         )
     }
     render() {
+        var logout = {
+            position: 'absolute',
+            bottom: 20
+        }
         const { first_name, last_name, id, image, bio, showBio } = this.state
-        console.log("this.hideUploader: ", this.hideUploader);
         if (!this.state.id) {
-            return (<img id="loading-img" src="/content/progressBar.gif" />)
+            return (
+                <div id="loading-screen">
+                    <h3 id="loading-message">Loading...</h3>
+                    <img id="loading-img" src="/content/progressBar.gif" />
+                </div>
+            )
         }
         return (
             <div id="app">
@@ -85,6 +93,9 @@ class App extends Component {
                         <Route exact path='/user/:id' component={Opp} />
                     </div>
                 </BrowserRouter>
+                <div style={logout} className="contex-box">
+                    <h3 id="log-out"><a href="/logout">Log out</a></h3>
+                </div>
             </div>
         )
     }

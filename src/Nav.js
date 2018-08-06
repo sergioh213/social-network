@@ -13,9 +13,9 @@ function Nav() {
                 <div className="nav-item">
                   <a href="https://sergio-petition.herokuapp.com/logIn">PETITION</a>
                 </div>
-                {/*<div className="nav-item">
-                  <a href="/thanks">SIGNATURE</a>
-                </div>*/}
+                <div className="nav-item">
+                  <a href="/friends">FRIENDS</a>
+                </div>
                 <div className="nav-item">
                   <a href="/logout">LOGOUT</a>
                 </div>

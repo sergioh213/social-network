@@ -13,6 +13,8 @@ const uidSafe = require('uid-safe');
 const path = require('path');
 const s3 = require("./s3");
 const config = require("./config");
+const server = require('http').Server(app);
+const io = require('socket.io')(server, { origins: 'localhost:8080' });
 
 var diskStorage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -31,12 +33,15 @@ var uploader = multer({
     }
 });
 
-app.use(
-   cookieSession({
+const sessMiddleware = cookieSession({
        secret: `I'm always angry.`,
        maxAge: 1000 * 60 * 60 * 24 * 14
    })
-);
+
+app.use(sessMiddleware);
+io.use(function(socket, next) {
+    sessMiddleware(socket.request, socket.request.res, next);
+});
 app.use(cookieParser());
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -266,6 +271,55 @@ app.get('*', function(req, res) {
     }
 });
 
-app.listen(8080, function() {
+server.listen(8080, function() {
     console.log("I'm listening.");
+});
+
+let onlineUsers = {};
+
+io.on('connection', function(socket) {
+    console.log(`socket with the id ${socket.id} is now connected`);
+
+    if (!socket.request.session || !socket.request.session.user.id) {
+        return socket.disconnect(true);
+    }
+
+    const userId = socket.request.session.user.id
+
+    onlineUsers[socket.id] = userId
+
+    if (Object.values(onlineUsers).filter(
+        id => id == userId
+    ).length == 1) {
+        // or db query to get the data, and pass it as the 2nd argument (better)
+        socket.broadcast.emit('userJoined', {
+            id: userId,
+            image: socket.request.session.user.image
+        })
+    }
+
+    db.getUsersByIds(Object.values(onlineUsers)).then(
+        users => socket.emit('onlineUsers', users)
+    )
+
+    socket.on('disconnect', function() {
+        delete onlineUsers[socket.id]
+
+        io.emit('userLeft', userId)
+        console.log(`socket with the id ${socket.id} is now disconnected`);
+    });
+    // io.sockets.sockets['jaflkjalkjefsukjh'].emit('hiDavid')
+
+    ///// receiving from the client and the server fowards it to the other client ///////
+    socket.on("privateMessage", data => {
+        io.sockets.sockets[data.socketId].emit('privateMessage')
+    })
+
+    socket.on('thanks', function(data) {
+        console.log(data);
+    });
+
+    socket.emit('welcome', {
+        message: 'Welome. It is nice to see you'
+    });
 });

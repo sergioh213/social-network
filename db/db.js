@@ -130,3 +130,12 @@ exports.acceptFriend = function(sender_id, receiver_id) {
         return results.rows[0]
     })
 }
+
+exports.getUsersByIds = function(ids) {
+    const params = [ids]
+    const q = `SELECT * FROM users WHERE id = ANY($1)`;
+    return db.query(q, params).then(results => {
+        console.log("results.rows in accept db: ", results.rows);
+        return results.rows
+    })
+}

@@ -33,14 +33,14 @@ input {
     color: black;
     font-size: 22px;
 }
-.header {
+/* .title {
     left: 50%;
     transform: translateX(-50%);
     top: 100px;
-    position: absolute;
+    position: relative;
     color: #5D3440;
     font-weight: bold;
-}
+} */
 #big-logo {
     margin-top: 120px;
     margin-left: 50px;
@@ -55,7 +55,7 @@ input {
 }
 #navheader {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     background-color: #5D3440;
     text-align: center;
 }
@@ -124,44 +124,16 @@ input {
     transform: translateX(-50%);
     top: 300px;
 }
-#profile {
-    position: relative;
-    display: block;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 70%;
-    margin-top: 200px;
-    background-color: #EDCBB1;
-    padding: 0px;
-    height: 200px;
-}
-#profile-pic {
-    width: 200px;
-    height: 200px;
-    display: inline;
-    object-fit: cover;
-    object-position: center;
-}
-#profile-name{
-    position: fixed;
-    display: inline;
-    margin-left: 40px;
-    margin-top: 20px;
-}
-#profile-header{
-    left: 50%;
-    transform: translateX(-50%);
-}
 #upload-button{
     left: 50%;
     transform: translateX(-50%);
     margin-bottom: 20px;
 }
-textarea{
+/* textarea{
     resize: none;
     width: 300px;
     height: 200px;
-}
+} */
 #opp{
     background-color: red;
 }
@@ -175,4 +147,18 @@ textarea{
     font-weight: bold;
     color: white;
     border-radius: 50%;
+}
+#loading-screen{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+#loading-img{
+    position: relative;
+}
+#loading-message{
+    position: relative;
+    margin-left: 10px;
 }

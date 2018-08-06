@@ -133,13 +133,21 @@ class FriendButton extends Component {
             })
     }
     render() {
+        var friendButtonStyle = {
+            textAlign: 'center'
+        }
+        var button = {
+            width: 'auto',
+            height: 'auto',
+            margin: 0
+        }
         const { buttonText } = this.state
         if (!this.props.id) {
             return null;
         }
         return (
-            <div id="FriendButton">
-                <button onClick={ this.sendRequest }>{ buttonText }</button>
+            <div id="FriendButton" style={friendButtonStyle}>
+                <button style={button} onClick={ this.sendRequest }>{ buttonText }</button>
             </div>
         )
     }
