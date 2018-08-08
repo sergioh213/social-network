@@ -4,7 +4,10 @@ import axios from './axios'
 import Profile from './Profile'
 import Nav from './Nav'
 import Opp from './Opp'
+import OnlineNow from './OnlineNow'
 import Uploader from './Uploader'
+import Friends from './Friends'
+import Chat from './Chat'
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 
 class App extends Component {
@@ -91,6 +94,9 @@ class App extends Component {
                         ) } />
                         { this.state.uploaderIsVisible && <Uploader setImage={ this.setImage } hideUploader={ this.hideUploader }/> }
                         <Route exact path='/user/:id' component={Opp} />
+                        <Route exact path='/friends' component={Friends} />
+                        <Route exact path='/online-now' component={OnlineNow} />
+                        <Route exact path='/chat' component={Chat} />
                     </div>
                 </BrowserRouter>
                 <div style={logout} className="contex-box">

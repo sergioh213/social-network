@@ -18,20 +18,20 @@ class FriendButton extends Component {
         this.updateButton()
     }
     updateButton() {
-        console.log("getting in to the update");
+        // console.log("getting in to the update");
         axios.get('/friend/' + this.props.id + '.json')
             .then(({data}) => {
-                console.log("status returned from db: ", data.status);
-                console.log("between sender: ", data.senderId, " & receiver: ", data.receiverId);
-                console.log("logged user ID is: ", data.sessionUserId);
-                if (!data || !data.status ) {
-                    console.log("there is NO data!");
+                // console.log("status returned from db: ", data.status);
+                // console.log("between sender: ", data.senderId, " & receiver: ", data.receiverId);
+                // console.log("logged user ID is: ", data.sessionUserId);
+                if ( !data || !data.status ) {
+                    // console.log("there is NO data!");
                     this.setState({
                         buttonText: 'Send friend request',
                         status: null,
                     })
                 } else {
-                    console.log("there is data! ", data);
+                    // console.log("there is data! ", data);
                     this.setState({
                         sessionUserId: data.sessionUserId,
                         receiverId: data.receiverId,
@@ -68,10 +68,12 @@ class FriendButton extends Component {
             if (this.state.sessionUserId == this.state.senderId) {
                 this.terminateFriend()
             } else if (this.state.sessionUserId == this.state.receiverId) {
+                this.props.handleAccept(this.props.id)
                 this.acceptFriend()
             }
         } else if (this.state.status == 2) {
             this.terminateFriend()
+            this.props.handleEndFriend(this.props.id)
         }
     }
     inviteFriend() {
@@ -84,9 +86,9 @@ class FriendButton extends Component {
                     receiverId: data.receiverId,
                     senderId: data.senderId
                 })
-                console.log("after invite return of data");
-                console.log("this.state.sessionUserId: ", this.state.sessionUserId);
-                console.log("this.state.senderId: ", this.state.senderId);
+                // console.log("after invite return of data");
+                // console.log("this.state.sessionUserId: ", this.state.sessionUserId);
+                // console.log("this.state.senderId: ", this.state.senderId);
                 if ( this.state.sessionUserId == this.state.senderId ) {
                     console.log("if im the sender (Cancel Invitation)");
                     this.setState({
@@ -108,7 +110,7 @@ class FriendButton extends Component {
         })
         axios.post('/terminate/' + this.props.id + '.json')
             .then(({data}) => {
-                console.log("inside returned data of terminate");
+                // console.log("inside returned data of terminate");
                 this.setState({
                     sessionUserId: data.sessionUserId,
                     receiverId: data.receiverId,
@@ -124,7 +126,7 @@ class FriendButton extends Component {
         })
         axios.post('/accept/' + this.props.id + '.json')
             .then(({data}) => {
-                console.log("Axios post of accept friend in button");
+                // console.log("Axios post of accept friend in button");
                 this.setState({
                     sessionUserId: data.sessionUserId,
                     receiverId: data.receiverId,

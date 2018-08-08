@@ -204,6 +204,22 @@ app.post("/accept/:id.json", (req, res) => {
     })
 })
 
+// app.get("/messages", (req, res) => {
+//     db.getMessages().then( ({messages}) => {
+//         res.json({
+//             messages: messages
+//         })
+//     })
+// })
+//
+// app.post("/messages", (req, res) => {
+//     db.saveMessage(req.session.user.id, req.body.message).then( ({data}) => {
+//         res.json({
+//             data: data
+//         })
+//     })
+// })
+
 app.post("/bio", (req, res) => {
     console.log("req.body.bio: ", req.body.bio);
     db.saveBio(req.session.user.id, req.body.bio).then(bio => {
@@ -258,6 +274,15 @@ app.get("/welcome", (req, res) => {
     }
 })
 
+app.get('/friendsWannabes.json', (req, res) => {
+    console.log("in '/friends.json'");
+    console.log("req.session.user.id :    ", req.session.user.id);
+    db.getFriendsWannabes(req.session.user.id).then(friendsWannabes => {
+        console.log("returned list of friends: ", friendsWannabes);
+        res.json({ friendsWannabes })
+    })
+})
+
 app.get('/logout', (req, res) => {
     req.session = null
     res.redirect('/welcome')
@@ -287,26 +312,30 @@ io.on('connection', function(socket) {
     const userId = socket.request.session.user.id
 
     onlineUsers[socket.id] = userId
+    console.log("onlineUsers after connection: ", onlineUsers);
 
     if (Object.values(onlineUsers).filter(
         id => id == userId
     ).length == 1) {
         // or db query to get the data, and pass it as the 2nd argument (better)
-        socket.broadcast.emit('userJoined', {
-            id: userId,
-            image: socket.request.session.user.image
+        db.getUserById(userId).then(userInfo => {
+            socket.broadcast.emit('userJoined', {
+                id: userId,
+                user: userInfo
+            })
+            console.log("socket user: ", userInfo);
         })
     }
 
     db.getUsersByIds(Object.values(onlineUsers)).then(
-        users => socket.emit('onlineUsers', users)
+        onlineUsers => socket.emit('onlineUsers', onlineUsers)
     )
 
     socket.on('disconnect', function() {
-        delete onlineUsers[socket.id]
-
         io.emit('userLeft', userId)
         console.log(`socket with the id ${socket.id} is now disconnected`);
+        console.log("onlineUsers after disconnect!! ", onlineUsers);
+        delete onlineUsers[socket.id]
     });
     // io.sockets.sockets['jaflkjalkjefsukjh'].emit('hiDavid')
 
@@ -318,6 +347,30 @@ io.on('connection', function(socket) {
     socket.on('thanks', function(data) {
         console.log(data);
     });
+
+    socket.on("newMessage", message => {
+        console.log("message received by the server: ", message);
+        db.saveMessage(socket.request.session.user.id, message).then( data => {
+            console.log("DATA   DATA   DATA: ", data);
+            db.getUserById(userId).then(userInfo => {
+                let newMessage = {
+                    message: data.message,
+                    sender_id: data.sender_id,
+                    id: data.id,
+                    created_at: data.created_at,
+                    first_name: userInfo.first_name,
+                    last_name: userInfo.last_name,
+                    image_url: userInfo.image_url
+                }
+                io.sockets.emit("newMessage", newMessage)
+            })
+        })
+    })
+
+    db.getMessages().then( messages => {
+        // console.log("GET MESSAGES IN SERVER: ", messages);
+        socket.emit("chatMessages", messages)
+    })
 
     socket.emit('welcome', {
         message: 'Welome. It is nice to see you'

@@ -49,7 +49,7 @@ class Profile extends Component {
             top: '100px',
             position: 'absolute',
             color: '#5D3440',
-            fontWeight: 'bold',
+            fontWeight: 'bold'
         }
         var profileStyle = {
             position: 'absolute',
