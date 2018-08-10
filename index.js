@@ -116,7 +116,7 @@ app.post("/upload", uploader.single('file'), s3.upload, (req, res) => {
     db.changeUserPic(req.session.user.id, config.s3Url + req.file.filename).then(imgUrl => {
         res.json({
             success: true,
-            url: imgUrl
+            image_url: imgUrl
         })
     })
 })
@@ -125,7 +125,7 @@ app.get("/user", (req, res) => {
     db.getUserById(req.session.user.id).then(data => {
         res.json({
             ...data,
-            image: data.image_url || '/content/default_profile_picture.png'
+            image_url: data.image_url || '/content/default_profile_picture.png'
         })
     }).catch((err) => {
         console.log("logging error", err);

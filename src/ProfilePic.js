@@ -17,7 +17,7 @@ function ProfilePic (props) {
     return (
         <div id="profile-pic-div" style={boxStyle}>
             <img id="profile-pic" style={picStyle}
-                src={ props.image }
+                src={ props.image_url }
                 alt={ `${props.firstName} ${props.lastName}` }
                 onClick={ props.clickHandler }
             />

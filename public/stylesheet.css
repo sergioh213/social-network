@@ -23,6 +23,9 @@ button {
 button:hover {
     background-color: #6fc672;
 }
+#button-wrapper:hover {
+    background-color: #6fc672;
+}
 body {
     background: #ccc;
     margin: 0;
@@ -209,6 +212,9 @@ input {
     cursor: pointer;
     font-size: 16;
 }
+#online-menu:hover{
+    background-color: #8e5466;
+}
 #chat-menu:hover{
     background-color: #8e5466;
 }
@@ -263,6 +269,12 @@ input {
     float: right;
     margin-right: 20px;
     color: #4CAF50;
+}
+.name-friends{
+    /* z-index: 100px; */
+    /* color: black; */
+    bottom: 40px;
+    margin-bottom: 50px;
 }
 /* /////////////////////////////// */
 .box h3{

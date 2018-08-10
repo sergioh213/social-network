@@ -93,7 +93,7 @@ class OnlineNow extends Component {
             color: 'black'
         }
         return (
-            <div style={ wholeThing } id="online-now" clasName="effect1">
+            <div style={ wholeThing } id="online-now" className="effect1">
             <div style={ menuStyle } id="online-menu" onClick={ this.props.toggleShowChat } >online<div style={ greenDot } id="green-dot">o</div></div>
                 { this.props.users &&
                     this.props.users.map(

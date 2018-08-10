@@ -112,7 +112,7 @@ class Opp extends Component {
 
                 <h1 id="title" style={titleStyle} >OPP</h1>
 
-                <div id="profile-box" style={profileStyle}>
+                <div className="effect1" id="profile-box" style={profileStyle}>
                     <div id="profile" style={boxStyle}>
                         <img id="profile-pic" src={ image_url } style={picStyle} alt=""/>
                     </div>
@@ -123,7 +123,7 @@ class Opp extends Component {
                             <p style={pStyle}>{ bio } </p>
                         </div>
                     </div>
-                    <div style={wrapper}>
+                    <div className="effect1" style={wrapper}>
                         <FriendButton id={ id } />
                     </div>
                 </div>

@@ -26,7 +26,7 @@ class Profile extends Component {
         })
     }
     render() {
-        const { first_name, last_name, id, image, bio, showBio, toggleShowBio, showUploader, hideUploader, setBio } = this.props
+        const { first_name, last_name, id, image_url, bio, showBio, toggleShowBio, showUploader, hideUploader, setBio } = this.props
         var profileResizableHeight = 200
         var bioSectionHeight = 92
         var textareaHeight = 210
@@ -119,15 +119,15 @@ class Profile extends Component {
 
                 <h1 id="title" style={titleStyle} >YOUR PROFILE</h1>
 
-                <div id="profile-box" style={profileStyle}>
+                <div className="effect1" id="profile-box" style={profileStyle}>
                     <ProfilePic
-                        image= { image }
+                        image_url= { image_url }
                         firstName= { first_name }
                         lastName= { last_name }
                         clickHandler= { showUploader }
                     />
                     <div id="text-box" style={textBoxStyle}>
-                        <div><i style={ editIcon } class="fas fa-pencil-alt"></i></div>
+                        <div><i style={ editIcon } className="fas fa-pencil-alt"></i></div>
                         <h3 id="section-header" style={sectionHeader}>Your profile info</h3>
                         <h1 style={nameStyle}>{ `${ first_name } ${ last_name }` }</h1>
                         <div id="bio-section" style={ bioSection }>

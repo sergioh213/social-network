@@ -28,7 +28,7 @@ class Uploader extends Component {
             axios.post('/upload', formData)
                 .then((res) => {
                     if (res.data.success) {
-                        this.props.setImage(res.data.url)
+                        this.props.setImage(res.data.image_url)
                     }
                 })
         }
@@ -50,7 +50,7 @@ class Uploader extends Component {
             textAlign: 'center'
         }
         return (
-            <div style={ wholeThing } id="uploader">
+            <div className="effect1" style={ wholeThing } id="uploader">
                 <p id="close-x" onClick={ this.props.hideUploader }>x</p>
                 <h3 id="profile-header">Change your profile image</h3>
                 <label id="file-label" htmlFor="file-field">Select image</label>

@@ -68,6 +68,8 @@ class Friends extends Component {
         }
         var picStyle = {
             width: 185,
+            maxHeight: 150,
+            // height: 150,
             objectFit: 'cover',
             objectPosition: 'center'
         }
@@ -83,13 +85,30 @@ class Friends extends Component {
             color: 'white',
             fontWeight: 'bold'
         }
+        var buttonWrapper = {
+            position: 'absolute',
+            // 'float': 'bottom',
+            bottom: 0,
+            width: '100%',
+            textAlign: 'center',
+            backgroundColor: '#4CAF50'
+        }
+        var nameStyle = {
+            zIndez: 100,
+            'z-index': 100
+        }
+        var linkStyle = {
+            textDecoration: 'none',
+            // fontWeight: 'bold',
+            // fontSize: 18,
+            color: 'white'
+        }
         if ( !this.props.friends ) {
             return null;
         }
         console.log('this.props.friends: ', this.props.friends);
         return (
             <div id="friends">
-                {/*<h1>FRIENDS PAGE!!</h1>*/}
                 <div style={ headerStyling } id="header" className="effect1">These are all your friends:</div>
                 { !this.props.friends.length
                     ? <div style={ emptyListStyle }>No people at this moment</div>
@@ -99,15 +118,17 @@ class Friends extends Component {
                                 friend => (
                                     <div style={ wannabeStyle } key={friend.id} id="wannabe" className="friend">
                                         <div>
-                                            <img id="profile-pic" src={ friend.image_url } style={ picStyle } alt="User's profile picture" />
+                                            <a href={`/user/${friend.id}`}><img id="profile-pic" src={ friend.image_url } style={ picStyle } alt="User's profile picture" /></a>
                                         </div>
                                         <div>
-                                            { friend.first_name }
+                                            <a style={linkStyle} href={`/user/${friend.id}`}>{ friend.first_name }</a>
                                         </div>
-                                        <div>
-                                            { friend.last_name }
+                                        <div className="name-friends">
+                                            <a style={linkStyle} href={`/user/${friend.id}`}>{ friend.last_name }</a>
                                         </div>
-                                        <FriendButton handleEndFriend={ this.handleEndFriend } id={ friend.id } />
+                                        <div style={buttonWrapper} id="button-wrapper">
+                                            <FriendButton handleEndFriend={ this.handleEndFriend } id={ friend.id } />
+                                        </div>
                                     </div>
                                 )
                             )
@@ -124,15 +145,17 @@ class Friends extends Component {
                                 wannabe => (
                                     <div style={ wannabeStyle } key={ wannabe.id } id="wannabe" className="effect1">
                                         <div>
-                                            <img id="profile-pic" src={ wannabe.image_url } style={ picStyle } alt="User's profile picture" />
+                                            <a href={`/user/${wannabe.id}`}><img id="profile-pic" src={ wannabe.image_url } style={ picStyle } alt="User's profile picture" /></a>
                                         </div>
                                         <div>
-                                            { wannabe.first_name }
+                                            <a style={linkStyle} href={`/user/${wannabe.id}`}>{ wannabe.first_name }</a>
                                         </div>
-                                        <div>
-                                            { wannabe.last_name }
+                                        <div className="name-friends">
+                                            <a style={linkStyle} href={`/user/${wannabe.id}`}>{ wannabe.last_name }</a>
                                         </div>
-                                        <FriendButton handleAccept={ this.handleAccept} id={ wannabe.id } />
+                                        <div style={buttonWrapper} id="button-wrapper">
+                                            <FriendButton handleAccept={ this.handleAccept} id={ wannabe.id } />
+                                        </div>
                                     </div>
                                 )
                             )

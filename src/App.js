@@ -45,10 +45,10 @@ class App extends Component {
             uploaderIsVisible: false
         })
     }
-    setImage(url) {
+    setImage(image_url) {
         this.setState({
             uploaderIsVisible: false,
-            image: url
+            image_url: image_url
         })
     }
     toggleShowBio() {
@@ -111,12 +111,12 @@ class App extends Component {
         return (
             <div id="app">
                 <Nav />
-                { !this.state.showOnline && <div clasName="effect1" id="online-menu" onClick={ this.toggleShowOnline } >online<div style={ greenDot } id="green-dot">o</div></div> }
+                { !this.state.showOnline && <div className="effect1" id="online-menu" onClick={ this.toggleShowOnline } >online<div style={ greenDot } id="green-dot">o</div></div> }
                 <BrowserRouter>
                     <div>
                         <Route exact path='/' render={ () => (
                             <Profile
-                                image={ image_url }
+                                image_url={ image_url }
                                 first_name={ first_name }
                                 last_name={ last_name }
                                 id={ id }
@@ -130,7 +130,7 @@ class App extends Component {
                         ) } />
                         <Route exact path='/profile' render={ () => (
                             <Profile
-                                image={ image_url }
+                                image_url={ image_url }
                                 first_name={ first_name }
                                 last_name={ last_name }
                                 id={ id }
