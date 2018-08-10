@@ -23,7 +23,6 @@ export function userLeft(id) {
 
 export function receiveFriendsWannabes() {
     return axios.get("/friendsWannabes.json").then(({ data }) => {
-        console.log("friendsWannabes axios get in actions: ", data);
         return {
             type: 'RECEIVE_LIST',
             friendsWannabes: data.friendsWannabes
@@ -32,7 +31,9 @@ export function receiveFriendsWannabes() {
 }
 
 export function acceptFriendRequest(wannabeId) {
-    return axios.get("/user/" + wannabeId + ".json").then(({ data }) => {
+    console.log("id of the accepted user ACTIONS: ", wannabeId);
+    return axios.get("/user/" + wannabeId + ".json").then( ({data})  => {
+        console.log("data returned when ACCEPT: ", data);
         return {
             type: 'ACCEPT_FRIEND',
             data
@@ -41,7 +42,6 @@ export function acceptFriendRequest(wannabeId) {
 }
 
 export function endFriendship(friendId) {
-    console.log("friendId in actions: ", friendId);
     return {
         type: 'END_FRIEND',
         friendId
@@ -49,7 +49,6 @@ export function endFriendship(friendId) {
 }
 
 export function receiveMessages(messages) {
-    console.log("IN ACTIONS: ", messages);
     return {
         type: 'RECEIVE_MESSAGES',
         messages
@@ -57,7 +56,6 @@ export function receiveMessages(messages) {
 }
 
 export function newMessage(message) {
-    console.log("message in actions.js: ", message);
     return {
         type: 'NEW_MESSAGE',
         message

@@ -142,7 +142,7 @@ app.get("/user/:id.json", (req, res) => {
         db.getUserById(req.params.id).then(data => {
             res.json({
                 ...data,
-                image: data.image_url || '/content/default_profile_picture.png'
+                image_url: data.image_url || '/content/default_profile_picture.png'
             })
         })
     }
@@ -204,22 +204,6 @@ app.post("/accept/:id.json", (req, res) => {
     })
 })
 
-// app.get("/messages", (req, res) => {
-//     db.getMessages().then( ({messages}) => {
-//         res.json({
-//             messages: messages
-//         })
-//     })
-// })
-//
-// app.post("/messages", (req, res) => {
-//     db.saveMessage(req.session.user.id, req.body.message).then( ({data}) => {
-//         res.json({
-//             data: data
-//         })
-//     })
-// })
-
 app.post("/bio", (req, res) => {
     console.log("req.body.bio: ", req.body.bio);
     db.saveBio(req.session.user.id, req.body.bio).then(bio => {
@@ -276,10 +260,13 @@ app.get("/welcome", (req, res) => {
 
 app.get('/friendsWannabes.json', (req, res) => {
     console.log("in '/friends.json'");
-    console.log("req.session.user.id :    ", req.session.user.id);
+    console.log("req.session.user.id :", req.session.user.id);
     db.getFriendsWannabes(req.session.user.id).then(friendsWannabes => {
-        console.log("returned list of friends: ", friendsWannabes);
-        res.json({ friendsWannabes })
+        // console.log("returned list of friends: ", friendsWannabes);
+        for (let user of friendsWannabes) {
+            user.image_url = user.image_url || '/content/default_profile_picture.png'
+        }
+        res.json({friendsWannabes})
     })
 })
 
@@ -312,7 +299,6 @@ io.on('connection', function(socket) {
     const userId = socket.request.session.user.id
 
     onlineUsers[socket.id] = userId
-    console.log("onlineUsers after connection: ", onlineUsers);
 
     if (Object.values(onlineUsers).filter(
         id => id == userId
@@ -321,20 +307,25 @@ io.on('connection', function(socket) {
         db.getUserById(userId).then(userInfo => {
             socket.broadcast.emit('userJoined', {
                 id: userId,
-                user: userInfo
+                first_name: userInfo.first_name,
+                last_name: userInfo.last_name,
+                image_url: userInfo.image_url || '/content/default_profile_picture.png'
             })
-            console.log("socket user: ", userInfo);
         })
     }
 
-    db.getUsersByIds(Object.values(onlineUsers)).then(
-        onlineUsers => socket.emit('onlineUsers', onlineUsers)
+    db.getUsersByIds(Object.values(onlineUsers)).then(onlineUsers => {
+            for (let user of onlineUsers) {
+                user.image_url = user.image_url || '/content/default_profile_picture.png'
+            }
+            console.log("onlineUsers: ", onlineUsers);
+            socket.emit('onlineUsers', onlineUsers)
+        }
     )
 
     socket.on('disconnect', function() {
         io.emit('userLeft', userId)
         console.log(`socket with the id ${socket.id} is now disconnected`);
-        console.log("onlineUsers after disconnect!! ", onlineUsers);
         delete onlineUsers[socket.id]
     });
     // io.sockets.sockets['jaflkjalkjefsukjh'].emit('hiDavid')
@@ -349,9 +340,7 @@ io.on('connection', function(socket) {
     });
 
     socket.on("newMessage", message => {
-        console.log("message received by the server: ", message);
         db.saveMessage(socket.request.session.user.id, message).then( data => {
-            console.log("DATA   DATA   DATA: ", data);
             db.getUserById(userId).then(userInfo => {
                 let newMessage = {
                     message: data.message,
@@ -360,7 +349,7 @@ io.on('connection', function(socket) {
                     created_at: data.created_at,
                     first_name: userInfo.first_name,
                     last_name: userInfo.last_name,
-                    image_url: userInfo.image_url
+                    image_url: userInfo.image_url || '/content/default_profile_picture.png'
                 }
                 io.sockets.emit("newMessage", newMessage)
             })
@@ -368,7 +357,9 @@ io.on('connection', function(socket) {
     })
 
     db.getMessages().then( messages => {
-        // console.log("GET MESSAGES IN SERVER: ", messages);
+        for (let message of messages) {
+            message.image_url = message.image_url || '/content/default_profile_picture.png'
+        }
         socket.emit("chatMessages", messages)
     })
 

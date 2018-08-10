@@ -75,7 +75,6 @@ exports.getMessages = function() {
         // 'SELECT * FROM chat ORDER BY id DESC LIMIT 10;'
     return db.query(q)
         .then(results => {
-            console.log("results.rows in getMessages: ", results.rowsHEREEEE );
             return results.rows.sort( (a, b) => {
                 return a.id - b.id
             })
@@ -90,7 +89,6 @@ exports.saveMessage = function(userId, message) {
             RETURNING *;
         `;
     return db.query(q, params).then(results => {
-        console.log("HEREEEE results.rows[0] in post: ", results.rows[0]);
         return results.rows[0]
     })
 }
@@ -113,7 +111,6 @@ exports.getCurrentStatus = function(sender_id, receiver_id) {
         OR (sender_id = $2 AND receiver_id = $1))
         `;
     return db.query(q, params).then(results => {
-        console.log("results.rows[0] during get: ", results.rows[0]);
         return results.rows[0]
     }).catch(err => {
         return err
@@ -128,7 +125,6 @@ exports.setStatus = function(sender_id, receiver_id) {
         RETURNING *;
         `;
     return db.query(q, params).then(results => {
-        console.log("results.rows[0] in post: ", results.rows[0]);
         return results.rows[0]
     })
 }
@@ -142,7 +138,6 @@ exports.deleteFriend = function(sender_id, receiver_id) {
         OR (sender_id = $2 AND receiver_id = $1));
         `;
     return db.query(q, params).then(results => {
-        console.log("results.rows[0] in delete db: ", results.rows[0]);
         return results.rows[0]
     })
 }
@@ -157,7 +152,6 @@ exports.acceptFriend = function(sender_id, receiver_id) {
         OR (sender_id = $2 AND receiver_id = $1));
         `;
     return db.query(q, params).then(results => {
-        console.log("results.rows[0] in accept db: ", results.rows[0]);
         return results.rows[0]
     })
 }
@@ -166,7 +160,6 @@ exports.getUsersByIds = function(ids) {
     const params = [ids]
     const q = `SELECT * FROM users WHERE id = ANY($1)`;
     return db.query(q, params).then(results => {
-        console.log("results.rows in accept db: ", results.rows);
         return results.rows
     })
 }
@@ -178,7 +171,6 @@ exports.getFriends = function(userid) {
         AND (status = 2))
         `;
     return db.query(q, params).then(results => {
-        console.log("getFriends: ", results.rows);
         return results.rows
     })
 }
@@ -190,7 +182,6 @@ exports.getWannabes = function(userid) {
         AND status = 1)
         `;
     return db.query(q, params).then(results => {
-        console.log("getWannabes: ", results.rows);
         return results.rows
     })
 }
@@ -208,7 +199,6 @@ exports.getFriendsWannabes = function(userId) {
     `;
 
     return db.query(q, params).then(results => {
-        console.log("getFriendsWannabes: ", results.rows);
         return results.rows
     })
 }

@@ -21,25 +21,23 @@ class Chat extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.formatDate = this.formatDate.bind(this)
     }
-
     componentDidMount() {
     }
-
     sendMessage() {
-        console.log("this.state.message: ", this.state.message);
         newChatMessage(this.state.message)
+        this.setState({
+            message: null
+        })
     }
-
     handleChange(e) {
         this.setState({
             [ e.target.name ] : e.target.value
         })
     }
-
     formatDate(dateValue) {
         if (!dateValue) {
             var newDate = new Date()
-            console.log("newDate: ", newDate);
+            // console.log("newDate: ", newDate);
             var date = new Date('' + newDate)
             var indexOfMonth = date.getMonth()
             var yearValue = date.getFullYear() // dateValue.slice(0, 4)
@@ -58,7 +56,7 @@ class Chat extends Component {
                     timeValue = date.getHours() + ":" + date.getMinutes() + "pm"
                 }
             }
-            console.log("dateValue: ", dateValue, " indexOfMonth: ", indexOfMonth, " yearValue: ", yearValue, " dayValue: ", dayValue, " timeValue: ", timeValue);
+            // console.log("dateValue: ", dateValue, " indexOfMonth: ", indexOfMonth, " yearValue: ", yearValue, " dayValue: ", dayValue, " timeValue: ", timeValue);
             var listOfMonths = [
                 'Jan',
                 'Feb',
@@ -106,7 +104,7 @@ class Chat extends Component {
                     timeValue = date.getHours() + ":" + date.getMinutes() + "pm"
                 }
             }
-            console.log("dateValue: ", dateValue, " indexOfMonth: ", indexOfMonth, " yearValue: ", yearValue, " dayValue: ", dayValue, " timeValue: ", timeValue);
+            // console.log("dateValue: ", dateValue, " indexOfMonth: ", indexOfMonth, " yearValue: ", yearValue, " dayValue: ", dayValue, " timeValue: ", timeValue);
             var listOfMonths = [
                 'Jan',
                 'Feb',
@@ -131,48 +129,45 @@ class Chat extends Component {
         }
     }
     render() {
-        console.log("this.props.messages: ", this.props.messages);
-        var imageSize = 50
+        var imageBoxSixe = 50
+        var imageSize = imageBoxSixe - 20
         var chatDivSize = 500
-        var dateBoxSize = 100
+        var dateBoxSize = 70
         var textAreaMarginTop = 12
         var textAreaHeight = 150
         var totalHeight = (imageSize * 10) + textAreaHeight + textAreaMarginTop
         var textBoxSize = chatDivSize - imageSize - dateBoxSize
         var chatDiv = {
-            backgroundColor: 'red',
-            border: 'blue 1px solid',
-            width: chatDivSize,
-            height: totalHeight
+            backgroundColor: '#f9dac2',
+            border: '#5D3440 3px solid',
+            borderBottom: 'none',
+            borderRight: 'none',
+            width: 'auto',
+            height: 'auto',
+            position: 'absolute',
+            bottom: 0,
+            right: 0
         }
         var wrapper = {
             backgroundColor: '#EDCBB1'
         }
-        var textareaStyle = {
-            resize: 'none',
-            height: textAreaHeight,
-            width: chatDivSize - imageSize - dateBoxSize,
-            marginLeft: imageSize,
-            marginTop: textAreaMarginTop
-        }
-        var gridBox = {
-            display: 'grid',
-            gridTemplateColumns: "" + imageSize + "px, " + textBoxSize + "px," + dateBoxSize + "px" //'repeat( 3, 1fr )'
-        }
-        var imageStyle = {
-            backgroundColor: 'pink',
+        var imageBox = {
+            // backgroundColor: 'pink',
             gridColumn: 1,
-            width: imageSize,
-            height: imageSize
+            width: imageBoxSixe,
+            // height: imageBoxSixe,
+            textAlign: 'center',
+            marginTop: imageBoxSixe/2 - imageSize/2 -2
         }
         var profilePic = {
             width: imageSize,
             height: imageSize,
             objectFit: 'cover',
-            objectPosition: 'center'
+            objectPosition: 'center',
+            borderRadius: "100%"
         }
         var messageStyle = {
-            backgroundColor: 'pink',
+            // backgroundColor: 'pink',
             width: textBoxSize,
             gridColumn:  2,
             display: 'grid',
@@ -193,7 +188,6 @@ class Chat extends Component {
         }
         var dateBox = {
             width: dateBoxSize, // remove to 'auto' date width (making whole box bigger)
-            backgroundColor: 'pink',
             gridColumn:  3,
             fontSize: 10,
             paddingTop: 2
@@ -213,54 +207,91 @@ class Chat extends Component {
             fontWeight: 'bold'
         }
         var buttonStyle = {
-            width: dateBoxSize - 2,
+            height: 20,
             margin: 0,
-            // top: 0
+            fontSize: 14,
+            padding: 0,
+            width: chatDivSize - imageBoxSixe - dateBoxSize,
+            marginLeft: imageBoxSixe + 16,
+            display: 'block'
+        }
+        var inputSection = {
+            backgroundColor: '#EDCBB1',
+            paddingBottom: 4
+        }
+        var gridBox = {
+            display: 'grid',
+            gridTemplateColumns: "" + imageSize + "px, " + textBoxSize + "px," + dateBoxSize + "px", //'repeat( 3, 1fr )'
+        }
+        var topBar = {
+            width: 'auto',
+        }
+        var closingX = {
+            marginTop: 4
+        }
+        var chatImgStyle = {
+            width: 16,
+            height: 'auto',
+            marginTop: 5,
+            // 'float': 'right',
+            marginLeft: imageBoxSixe/2 - 16/2 + 1,
+            color: '#5D3440'
+        }
+        var linkStyle = {
+            textDecoration: 'none',
+            fontWeight: 'bold',
+            fontSize: 18,
+            color: 'black'
         }
         return (
-            <div style={ chatDiv } id="chat">
-                    {/*<h1 id="title" style={titleStyle} >GLOBAL CHAT PAGE</h1>*/}
-                    <div id="wrapper">
-                        { this.props.messages &&
-                            this.props.messages.map(
-                                message => (
-                                    <div id="gridBox" style={ gridBox } key={ message.id } className="message">
-                                        <div style={ imageStyle }>
-                                            <img style={ profilePic } src={ message.image_url } alt="Profile picture"/>
+            <div style={ chatDiv } id="chat" className="effect1">
+                <div style={ topBar } id="top-chat-bar">
+                    <i style={ chatImgStyle } className="far fa-comment"></i>
+                    <div onClick={ this.props.toggleShowChat } style={ closingX } id="close-x">x</div>
+                </div>
+                <div id="wrapper">
+                    { this.props.messages &&
+                        this.props.messages.map(
+                            message => (
+                                <div id="gridBox" style={ gridBox } key={ message.id } >
+                                    <div style={ imageBox }>
+                                        <a href={`/user/${message.sender_id}`}><img style={ profilePic } src={ message.image_url } alt="Profile picture"/></a>
+                                    </div>
+                                    <div id="message-box" style={ messageStyle }>
+                                        <div style={ nameStyle }>
+                                            <a style={linkStyle} href={`/user/${message.sender_id}`}>{ `${message.first_name} ${message.last_name}` }</a>
                                         </div>
-                                        <div id="message-box" style={ messageStyle }>
-                                            <div style={ nameStyle }>
-                                                { `${message.first_name} ${message.last_name}` }
-                                            </div>
-                                            <div style={ textStyle }>
-                                                { message.message }
-                                            </div>
-                                        </div>
-                                        <div style={ dateBox }>
-                                            <div style={ timeStyle }>
-                                                {`
-                                                    ${ this.formatDate(message.created_at).time }
-                                                    `}
-                                            </div>
-                                            <div style={ dateStyle }>
-                                                {`
-                                                    ${ this.formatDate(message.created_at).day }
-                                                     of
-                                                    ${ this.formatDate(message.created_at).month }
-                                                `}
-                                                <br />
-                                                {`
-                                                    ${ this.formatDate(message.created_at).year }
-                                                 `}
-                                             </div>
+                                        <div style={ textStyle }>
+                                            { message.message }
                                         </div>
                                     </div>
-                                )
+                                    <div style={ dateBox }>
+                                        <div style={ timeStyle }>
+                                            {`
+                                                ${ this.formatDate(message.created_at).time }
+                                                `}
+                                        </div>
+                                        <div style={ dateStyle }>
+                                            {`
+                                                ${ this.formatDate(message.created_at).day }
+                                                 of
+                                                ${ this.formatDate(message.created_at).month }
+                                            `}
+                                            <br />
+                                            {`
+                                                ${ this.formatDate(message.created_at).year }
+                                             `}
+                                         </div>
+                                    </div>
+                                </div>
                             )
-                        }
-                    </div>
-                <textarea onChange={ e => this.handleChange(e) } name="message" style={ textareaStyle } cols="30" rows="10"></textarea>
-                <button style={ buttonStyle } onClick={ () => this.sendMessage() }>Send</button>
+                        )
+                    }
+                </div>
+                <div style={ inputSection } id="input-section">
+                    <textarea id="messages-textarea" onChange={ e => this.handleChange(e) } name="message" defaultValue={ this.state.message } cols="30" rows="10"></textarea>
+                    <button style={ buttonStyle } onClick={ () => this.sendMessage() }>Send</button>
+                </div>
             </div>
         )
     }

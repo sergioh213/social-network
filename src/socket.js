@@ -14,7 +14,6 @@ export function init(store) {
         });
 
         socket.on('userJoined', user => {
-            console.log("user at socket.on : ", user);
             store.dispatch(userJoined(user))
         })
 
@@ -23,12 +22,10 @@ export function init(store) {
         })
 
         socket.on("chatMessages", messages => {
-            console.log("IN SOCKET messages: ", messages);
             store.dispatch(receiveMessages(messages))
         })
 
         socket.on("newMessage", message => {
-            console.log("newMessage in socket.io: ", message);
             store.dispatch(newMessage(message))
         })
 
@@ -42,6 +39,5 @@ export function init(store) {
 }
 
 export function newChatMessage(newMessage) {
-    console.log("socket.js EXPORTED newMessage: ", newMessage);
     socket.emit("newMessage", newMessage)
 }

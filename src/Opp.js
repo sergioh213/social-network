@@ -103,7 +103,7 @@ class Opp extends Component {
             transform: 'translate(-50%, -50%)',
             top: profileResizableHeight + 25
         }
-        const { first_name, last_name, id, image, bio } = this.state
+        const { first_name, last_name, id, image_url, bio } = this.state
         if (!id) {
             return null;
         }
@@ -114,7 +114,7 @@ class Opp extends Component {
 
                 <div id="profile-box" style={profileStyle}>
                     <div id="profile" style={boxStyle}>
-                        <img id="profile-pic" src={ image } style={picStyle} alt=""/>
+                        <img id="profile-pic" src={ image_url } style={picStyle} alt=""/>
                     </div>
                     <div id="text-box" style={textBoxStyle}>
                         <h3 id="section-header" style={sectionHeader}>Someone else's profile</h3>
@@ -132,16 +132,6 @@ class Opp extends Component {
 
             </div>
         )
-        // (
-        //     <div id="profile" style={boxStyle}>
-        //         <img id="profile-pic" src={ image } style={picStyle} alt=""/>
-        //         {/*<h1>SOMEONE ELSES PROFILE</h1>*/}
-        //         <h3>{ `${ first_name } ${ last_name }'s profile` }</h3>
-        //         <p>{ bio }</p>
-        //         <FriendButton id={ id } />
-        //         <Logo currentPage={`SOMEONE ELSE'S PROFILE`} />
-        //     </div>
-        // )
     }
 }
 

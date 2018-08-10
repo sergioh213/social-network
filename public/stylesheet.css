@@ -20,11 +20,14 @@ button {
     font-size: 16px;
     cursor: pointer;
 }
+button:hover {
+    background-color: #6fc672;
+}
 body {
+    background: #ccc;
     margin: 0;
     padding: 0;
     background: linear-gradient(to bottom right, green, #EDCBB1);
-    /* background-color: #EDCBB1; */
 }
 input {
     filter: opacity(0.5);
@@ -55,7 +58,7 @@ input {
 }
 #navheader {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     background-color: #5D3440;
     text-align: center;
 }
@@ -93,9 +96,8 @@ input {
     font-size: 20px;
 }
 #log-out {
-    /* left: 50%;
-    transform: translateX(-50%);
-    position: absolute; */
+    padding: 0;
+    margin: 0;
     top: 600px;
 }
 #file-field {
@@ -112,8 +114,14 @@ input {
     text-decoration: none;
     /* display: inline-block; */
     font-size: 16px;
+    cursor: pointer;
+    float: center;
+    margin-left: 50px;
 }
-#uploader {
+#file-label:hover{
+    background-color: #6fc672;
+}
+/* #uploader {
     border: #5D3440 10px solid;
     text-align: center;
     background-color: #EDCBB1;
@@ -123,11 +131,13 @@ input {
     left: 50%;
     transform: translateX(-50%);
     top: 300px;
-}
+} */
 #upload-button{
     left: 50%;
     transform: translateX(-50%);
     margin-bottom: 20px;
+    margin: 0 auto;
+    /* float: right; */
 }
 /* textarea{
     resize: none;
@@ -142,8 +152,8 @@ input {
     margin-right: 20px;
     cursor: pointer;
     background-color: #5D3440;
-    padding-left: 4px;
-    padding-right: 4px;
+    padding-left: 5px;
+    padding-right: 5px;
     font-weight: bold;
     color: white;
     border-radius: 50%;
@@ -161,4 +171,149 @@ input {
 #loading-message{
     position: relative;
     margin-left: 10px;
+}
+#gridBox:nth-last-of-type(even){
+    background-color: #EDCBB1;
+}
+#chat-menu{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 260px;
+    height: auto;
+    border: white solid 1px;
+    border-bottom: none;
+    border-right: none;
+    background-color: #7a4656;
+    border-radius: 8px 0 0 0;
+    padding: 6px;
+    color: white;
+    padding-left: 20px;
+    cursor: pointer;
+    font-size: 16;
+}
+#online-menu{
+    position: absolute;
+    top: 59;
+    right: 0;
+    width: 260px;
+    height: auto;
+    border: white solid 1px;
+    border-top: none;
+    border-right: none;
+    background-color: #7a4656;
+    border-radius: 0 0 0 8px;
+    padding: 6px;
+    color: white;
+    padding-left: 20px;
+    cursor: pointer;
+    font-size: 16;
+}
+#chat-menu:hover{
+    background-color: #8e5466;
+}
+#chat{
+    border-radius: 10px 0 0 0;
+}
+#top-chat-bar{
+    height: 26px;
+    border-radius: 10px 0 0 0;
+    background-color: #e0bb9f; /* #7a4656; */
+}
+#messages-textarea{
+    resize: 'none';
+    height: 150px;
+    width: 380px;
+    margin-left: 66px;
+    margin-top: 12px;
+    background-color: #fcebde;
+    font-size: 15px;
+    border: #5D3440 1px solid;
+}
+#messages-textarea:focus{
+    background-color: #fff6ef; /* #fcebde; */
+}
+#wannabes-box{}
+#wannabe{
+    background-color: #c49a79;
+}
+#wannabe:nth-last-of-type(even){
+    background-color: #e0bb9f;
+}
+#user-box{
+    background-color: #EDCBB1;
+}
+#user-box:nth-last-of-type(even){
+    background-color: #e0bb9f;
+}
+#online-now{
+    top: 59;
+    right: 0;
+}
+.fas .fa-circle{
+    width: 3px;
+    height: 3px;
+    float: right;
+    margin-right: 20px;
+    color: #4CAF50;
+}
+.fas .fa-pencil{
+    width: 3px;
+    height: 3px;
+    float: right;
+    margin-right: 20px;
+    color: #4CAF50;
+}
+/* /////////////////////////////// */
+.box h3{
+    text-align:center;
+    position:relative;
+    top:80px;
+}
+.box {
+    width:70%;
+    height:200px;
+    background:#FFF;
+    margin:40px auto;
+}
+/* effect1 */
+.effect1{
+    -webkit-box-shadow: 0 10px 6px -6px #777;
+       -moz-box-shadow: 0 10px 6px -6px #777;
+            box-shadow: 0 10px 6px -6px #777;
+}
+/* effect2 */
+.effect2
+{
+  position: relative;
+}
+.effect2:before, .effect2:after
+{
+  z-index: -1;
+  position: absolute;
+  content: "";
+  bottom: 15px;
+  left: 10px;
+  width: 50%;
+  top: 80%;
+  max-width:300px;
+  background: #777;
+  -webkit-box-shadow: 0 15px 10px #777;
+  -moz-box-shadow: 0 15px 10px #777;
+  box-shadow: 0 15px 10px #777;
+  -webkit-transform: rotate(-3deg);
+  -moz-transform: rotate(-3deg);
+  -o-transform: rotate(-3deg);
+  -ms-transform: rotate(-3deg);
+  transform: rotate(-3deg);
+}
+.effect2:after
+{
+  -webkit-transform: rotate(3deg);
+  -moz-transform: rotate(3deg);
+  -o-transform: rotate(3deg);
+  -ms-transform: rotate(3deg);
+  transform: rotate(3deg);
+  right: 10px;
+  left: auto;
 }

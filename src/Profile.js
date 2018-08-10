@@ -75,7 +75,8 @@ class Profile extends Component {
             display: 'inline-block'
         }
         var sectionHeader = {
-            margin: 0
+            margin: 0,
+            color: '#5D3440'
         }
         var nameStyle = {
             margin: 0
@@ -99,9 +100,18 @@ class Profile extends Component {
             borderRadius: "0px 8px 8px 0px",
             minHeight: bioSectionHeight
         }
-        var editButton = {
+        var editBioButton = {
             fontWeight: 'bold',
             color: '#5D3440',
+            cursor: 'pointer'
+        }
+        var editIcon = {
+            // position: 'absolute',
+            width: 16,
+            height: 16,
+            color: 'grey',
+            'float': 'right',
+            marginRight: 10,
             cursor: 'pointer'
         }
         return (
@@ -117,11 +127,12 @@ class Profile extends Component {
                         clickHandler= { showUploader }
                     />
                     <div id="text-box" style={textBoxStyle}>
+                        <div><i style={ editIcon } class="fas fa-pencil-alt"></i></div>
                         <h3 id="section-header" style={sectionHeader}>Your profile info</h3>
                         <h1 style={nameStyle}>{ `${ first_name } ${ last_name }` }</h1>
-                        <div id="bio-section" style={bioSection}>
+                        <div id="bio-section" style={ bioSection }>
                             { bio
-                                ? <p style={pStyle}>{ bio } <span style={editButton} onClick={ (e) => {
+                                ? <p style={pStyle}>{ bio } <span style={editBioButton} onClick={ (e) => {
                                     toggleShowBio()
                                     console.log("bio on click", bio);
                                 } }>Edit</span> </p>

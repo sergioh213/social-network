@@ -17,7 +17,7 @@ export default function(state = {}, action) {
     if (action.type == 'USER_JOINED') {
         state = {
             ...state,
-            users: [action.user.user, ...state.users]
+            users: [action.user, ...state.users]
         }
     }
     if (action.type == 'USER_LEFT') {
@@ -27,7 +27,6 @@ export default function(state = {}, action) {
         }
     }
     if (action.type == 'ACCEPT_FRIEND') {
-        console.log("action: ", action);
         state = {
             ...state,
             friends: [action.data, ...state.friends],

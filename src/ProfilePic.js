@@ -4,7 +4,8 @@ function ProfilePic (props) {
     var boxStyle = {
         width: '200px',
         height: '200px',
-        display: 'inline-block'
+        display: 'inline-block',
+        cursor: 'pointer'
     }
     var picStyle = {
         width: '200px',
